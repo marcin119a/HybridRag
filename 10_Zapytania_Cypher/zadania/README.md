@@ -137,7 +137,9 @@ def search_offers(city_district: str = "Mokotów", rooms: float = 2.0, limit: in
     ORDER BY price_total ASC
     LIMIT {limit}
     """
-    return graph.query(query)
+    with driver.session() as session:
+        results = session.run(query).data()
+    return results
 ```
 
 ---
