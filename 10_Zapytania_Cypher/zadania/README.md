@@ -114,29 +114,6 @@ LIMIT 10;
 Uruchom zapytanie i pokaż wynik.
 Zmień filtr tak, aby wyszukać oferty w dzielnicy *Śródmieście*.
 
----
-
-# **CZĘŚĆ 5 — Integracja z LangChain**
-
-### 5.1 Utwórz obiekt `Neo4jGraph`
-
-```python
-from langchain_community.graphs import Neo4jGraph
-
-graph = Neo4jGraph(
-    url="bolt://localhost:7687",
-    username="neo4j",
-    password="test123123"
-)
-```
-
-### 5.2 Wyświetl schemat grafu
-
-```python
-print(graph.get_schema)
-```
-
----
 
 
 Utwórz narzędzie:
