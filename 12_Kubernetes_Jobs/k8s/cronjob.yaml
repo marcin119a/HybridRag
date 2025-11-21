@@ -1,0 +1,88 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: scraper-cronjob
+  namespace: default
+  labels:
+    app: scraper
+spec:
+  # Run daily at 2 AM
+  schedule: "0 2 * * *"
+  timeZone: "Europe/Warsaw"
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      activeDeadlineSeconds: 7200  # 2 hours timeout for both cities
+      template:
+        metadata:
+          labels:
+            app: scraper
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: warszawa-scraper
+            image: adresowo-scraper:latest
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: CITY
+              value: "warszawa"
+            - name: PAGES
+              valueFrom:
+                configMapKeyRef:
+                  name: scraper-config
+                  key: warszawa_pages
+            - name: DELAY
+              valueFrom:
+                configMapKeyRef:
+                  name: scraper-config
+                  key: DELAY
+            - name: OUTPUT_DIR
+              valueFrom:
+                configMapKeyRef:
+                  name: scraper-config
+                  key: OUTPUT_DIR
+            volumeMounts:
+            - name: data-volume
+              mountPath: /data
+            resources:
+              requests:
+                memory: "256Mi"
+                cpu: "250m"
+              limits:
+                memory: "512Mi"
+                cpu: "500m"
+          - name: wroclaw-scraper
+            image: adresowo-scraper:latest
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: CITY
+              value: "wroclaw"
+            - name: PAGES
+              valueFrom:
+                configMapKeyRef:
+                  name: scraper-config
+                  key: wroclaw_pages
+            - name: DELAY
+              valueFrom:
+                configMapKeyRef:
+                  name: scraper-config
+                  key: DELAY
+            - name: OUTPUT_DIR
+              valueFrom:
+                configMapKeyRef:
+                  name: scraper-config
+                  key: OUTPUT_DIR
+            volumeMounts:
+            - name: data-volume
+              mountPath: /data
+            resources:
+              requests:
+                memory: "256Mi"
+                cpu: "250m"
+              limits:
+                memory: "512Mi"
+                cpu: "500m"
+          volumes:
+          - name: data-volume
+            persistentVolumeClaim:
+              claimName: scraper-data-pvc

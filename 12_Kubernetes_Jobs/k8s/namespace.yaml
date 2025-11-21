@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: scraper
+ labels:
+   name: scraper
+   purpose: web-scraping
