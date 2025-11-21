@@ -15,7 +15,7 @@ Zbuduj system Hybrid RAG (Retrieval-Augmented Generation) wykorzystujący LangGr
 
 1. Pobierz plik z danymi ogłoszeń:
    ```bash
-   wget https://raw.githubusercontent.com/marcin119a/r_d/refs/heads/main/scraper/data/ogloszenia_warszawa_detailed.csv
+   wget https://raw.githubusercontent.com/marcin119a/r_d/refs/heads/main/scraper/data/ogloszenia_lodz_detailed.csv
    ```
 
 2. Wczytaj dane do pandas DataFrame i przygotuj strukturę:
@@ -150,7 +150,7 @@ Przetestuj system na następujących przykładach:
 
 1. **Pytanie wymagające RAG:**
    ```
-   "Znajdź mieszkania 2-pokojowe na Mokotowie do 900 tysięcy z balkonem."
+   "Znajdź mieszkania 2-pokojowe na Bautach do 900 tysięcy z balkonem."
    ```
 
 2. **Small talk (bez RAG):**
